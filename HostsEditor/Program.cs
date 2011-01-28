@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace HostsEditor
@@ -53,11 +54,12 @@ namespace HostsEditor
 					else
 					{
 						MakeBackupOf(hostsFileName);
+						var omitNewLine = OmitNewLine(hostsFileName);
 						using (var sr = File.AppendText(hostsFileName))
 						{
 							var newEntry = string.Format("{0}\t{1}", ipAddress, hostName);
 							// add line break if there isn't one at the end)
-							if (lines.Last() != "")
+							if (!omitNewLine)
 								sr.WriteLine();
 							sr.WriteLine(newEntry);
 							sr.Close();
@@ -94,6 +96,11 @@ namespace HostsEditor
 				Console.WriteLine();
 				Console.WriteLine(ex.Message);
 			}
+		}
+
+		private static bool OmitNewLine(string hostsFileName)
+		{
+			return File.ReadAllText(hostsFileName).EndsWith(Environment.NewLine);
 		}
 
 		private static void PrintInfo(string title, string hostName)
