@@ -22,6 +22,7 @@ dim rc : rc = 0
 dim rc2 : rc2 = 0
 dim rc3 : rc3 = 0
 dim anfrage, strValid, i, j, tmpChar, ok, abort
+dim numValid, fields(2), f
 
 trace formatvars
 
@@ -34,11 +35,18 @@ strValid = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzƒŠŒŽšœžŸÀÁÂÃÄÅÆÇ
 ok = false
 abort = false
 
+Function isPhoneNumber(text)
+	dim phoneRegex
+	Set phoneRegex = new regexp 'Create the RegExp object
+	phoneRegex.Pattern = "^[\d\.\(\)/+ -]*$" ' allow only: 0123456789./()-+ and space in phone numbers
+	phoneRegex.IgnoreCase = true
+	isPhoneNumber = phoneRegex.Test(text)
+End Function
+
 if UCase(Request.ServerVariables("REQUEST_METHOD")) = "POST" then
 
    trace "processing POST request ..."
    
-	
 	i = 1
     j = 1
     While abort = false And i < Len(anfrage)
@@ -58,6 +66,21 @@ if UCase(Request.ServerVariables("REQUEST_METHOD")) = "POST" then
             ok = False
         End If
     Wend
+	
+	' Handle phone numbers
+	IF abort = false THEN
+	
+		fields(0) = Request("Telefon")
+		fields(1) = Request("Fax")
+		fields(2) = Request("Mobil")
+		f = 0
+
+		while abort = false AND f < 3
+			abort = isPhoneNumber(fields(f))
+			f = f + 1
+		wend
+
+	END IF
    
    If abort = false Then
    

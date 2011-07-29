@@ -8,10 +8,14 @@ textNo = "123 hallo"
 textYes = "(+34) 45/345-567-00.32"
 
 Function isPhoneNumber(text)
-	dim phoneRegex
+	dim phoneRegex, i
 	Set phoneRegex = new regexp 'Create the RegExp object
 	phoneRegex.Pattern = "^[\d\.\(\)/+ -]*$" ' allow only: 0123456789./()-+ and space
 	phoneRegex.IgnoreCase = true
+	i = 0
+	while i < 3
+		i = i+1
+	wend
 	isPhoneNumber = phoneRegex.Test(text)
 End Function
 %>
