@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -13,7 +14,8 @@ namespace Logging
 
 		protected void Application_Start(object sender, EventArgs e)
 		{
-			XmlConfigurator.Configure();
+			XmlConfigurator.ConfigureAndWatch(new FileInfo(Server.MapPath("web.log4net.config")));
+			//XmlConfigurator.Configure();
 		}
 
 		protected void Session_Start(object sender, EventArgs e)
