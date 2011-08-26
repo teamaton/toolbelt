@@ -54,6 +54,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="class.aspx" />
     <Content Include="Global.asax" />
     <Content Include="logg.aspx" />
     <Content Include="Web.config" />
