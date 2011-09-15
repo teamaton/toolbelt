@@ -10,7 +10,10 @@
 <body>
 		<form id="Form" runat="server">
 		<div>
-			<%= string.Join("<br/>", File.ReadAllLines(Server.MapPath(@"log\app.log"))) %>
+			<%--<%= string.Join("<br/>", File.ReadAllLines(Server.MapPath(@"log\app.log"))) %>--%>
+		</div>
+		<div>
+		  <pre><%: ToDebugString(Request, 3) %></pre>
 		</div>
 		</form>
 </body>
